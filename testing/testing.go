@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"cloud.google.com/go/datastore"
 	"github.com/neilghosh/event-feeder/constants"
@@ -24,11 +25,13 @@ func EchoHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func TestHandler(w http.ResponseWriter, r *http.Request) {
+	log.Printf(fmt.Sprintf("Use the project id %v", os.Getenv("GOOGLE_CLOUD_PROJECT")))
+
 	//https://github.com/GoogleCloudPlatform/golang-samples/blob/master/datastore/snippets/snippet_test.go
 	ctx := context.Background()
 	log.Printf(fmt.Sprintf("Request Context %v", ctx))
 
-	datastoreClient, err := datastore.NewClient(ctx, constants.PROJECT_ID)
+	datastoreClient, err := datastore.NewClient(ctx, constants.GetProject())
 	if err != nil {
 		log.Printf(fmt.Sprintf("Datatore client error %v", err))	
 		return

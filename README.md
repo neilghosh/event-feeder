@@ -7,6 +7,14 @@ Note that if the min version is not met , go module features won't work.
 https://golang.org/doc/install
 https://cloud.google.com/sdk/docs#deb
 
+Install & Run Datastore Emulator  
+https://cloud.google.com/datastore/docs/tools/datastore-emulator
+```
+gcloud components install cloud-datastore-emulator
+gcloud beta emulators datastore start 
+
+```
+
 ```
 go version 
 
@@ -60,6 +68,33 @@ Then you can debug from VSCode with the following run debug configuration
 }
    
 ```
+
+## Deploy 
+
+### Appengine
+
+``` gcloud app deploy ```
+
+### Cloud Run 
+
+Since cloud run does not have default access to the Cloud Datastore unlike appengine, a service account needs to be created (probably only with Datastore read write access for the    project ) and the corresponding key should be places in the resource/ directory with name `event-feeder-datastore-key.json` This file would be copied to the docker image during docker image building.
+
+
+ Containarize 
+
+ ``` docker build -t event-feeder .  ```
+
+Run Locally 
+
+``` docker run -p 8080:8080 event-feeder ```
+
+Build and Push to registry 
+
+``` gcloud builds submit --tag gcr.io/demoneil/event-feeder ```
+
+Deploy to Cloud Run 
+
+``` gcloud run deploy --image gcr.io/demoneil/event-feeder --platform managed  ```
 
 ## References 
 * https://golang.org/pkg/testing/

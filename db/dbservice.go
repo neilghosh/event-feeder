@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"context"
 	"log"
-
 	"cloud.google.com/go/datastore"
 
 	"github.com/neilghosh/event-feeder/model"
@@ -13,7 +12,7 @@ import (
 
 func GetDataStoreClient(ctx context.Context) *datastore.Client {
 	// Creates a datastore client.
-	datastoreClient, err := datastore.NewClient(ctx, constants.PROJECT_ID)
+	datastoreClient, err := datastore.NewClient(ctx, constants.GetProject())
 	if err != nil {
 		log.Fatal(err)	
 	}
